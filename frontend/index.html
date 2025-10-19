@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Users Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 70%; border-collapse: collapse; margin: 20px auto; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #4CAF50; color: white; }
+        button { padding: 5px 10px; cursor: pointer; margin: 2px; }
+        form { width: 70%; margin: 0 auto; display: flex; gap: 10px; }
+        input { padding: 5px; flex: 1; }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Users Management</h2>
+
+    <!-- Add/Edit Form -->
+    <form id="userForm">
+        <input type="hidden" id="userId" value="">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button type="submit" id="submitBtn">Add User</button>
+        <button type="button" id="cancelBtn" style="display:none;">Cancel</button>
+    </form>
+
+    <!-- Users Table -->
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const apiUrl = "http://localhost:5000/users"; // Relative URL since backend serves frontend
+        const form = document.getElementById("userForm");
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const userIdInput = document.getElementById("userId");
+        const submitBtn = document.getElementById("submitBtn");
+        const cancelBtn = document.getElementById("cancelBtn");
+
+        async function fetchUsers() {
+            const res = await fetch(apiUrl);
+            const users = await res.json();
+            console.log(users); // <— this will help debug
+            const tbody = document.querySelector("#usersTable tbody");
+            tbody.innerHTML = "";
+            users.forEach(user => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <button onclick="startEdit(${user.id}, '${user.name}', '${user.email}')">Edit</button>
+                        <button onclick="deleteUser(${user.id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Delete user
+        async function deleteUser(id) {
+            if (!confirm("Are you sure you want to delete this user?")) return;
+            await fetch(`${apiUrl}/${id}`, { method: "DELETE" });
+            fetchUsers();
+        }
+
+        // Start editing a user
+        function startEdit(id, name, email) {
+            userIdInput.value = id;
+            nameInput.value = name;
+            emailInput.value = email;
+            submitBtn.textContent = "Update User";
+            cancelBtn.style.display = "inline";
+        }
+
+        // Cancel editing
+        cancelBtn.addEventListener("click", () => {
+            userIdInput.value = "";
+            form.reset();
+            submitBtn.textContent = "Add User";
+            cancelBtn.style.display = "none";
+        });
+
+        // Handle form submit (add/edit)
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = userIdInput.value;
+            const payload = { name: nameInput.value, email: emailInput.value };
+            if (id) {
+                await fetch(`${apiUrl}/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+            } else {
+                await fetch(apiUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+            }
+            form.reset();
+            userIdInput.value = "";
+            submitBtn.textContent = "Add User";
+            cancelBtn.style.display = "none";
+            fetchUsers();
+        });
+
+        fetchUsers();
+    </script>
+</body>
+</html>
