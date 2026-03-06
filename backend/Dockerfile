@@ -9,10 +9,10 @@ RUN apk add --no-cache curl
 WORKDIR /app
 
 
-# Copy Python script
+# Copy application files to the container
 COPY app.py /app/
-# COPY requirements.txt /app/
 COPY requirements.txt /app/
+COPY gunicorn_config.py /app/
 
 #EXPOSE 5057
 
@@ -23,6 +23,7 @@ RUN pip install ddtrace
 RUN pip install gunicorn  
 
 # Run the script with ddtrace
-#CMD ["ddtrace-run", "python", "/app/app.py"]
-CMD ["ddtrace-run", "gunicorn", "-b", "0.0.0.0:5000", "app:app"]
 #CMD ["python", "python-test.py"]
+#CMD ["ddtrace-run", "python", "/app/app.py"]
+# Use Gunicorn to use the gunicorn_config.py for log formatter and to enable spans in Datadog APM
+CMD ["ddtrace-run", "gunicorn", "-b", "0.0.0.0:5000", "--config", "gunicorn_config.py", "app:app"]

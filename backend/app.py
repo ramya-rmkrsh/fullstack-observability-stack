@@ -1,6 +1,7 @@
 import os
 import logging
 import psycopg2
+import json
 from psycopg2.extras import RealDictCursor
 from flask import Flask, jsonify, request
 from ddtrace import patch_all, tracer
@@ -17,10 +18,21 @@ CORS(
 )
 
 # 📜 Basic structured logging (stdout → Datadog picks this up)
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(name)s %(message)s"
-)
+
+class JSONFormatter(logging.Formatter):
+    def format(self, record):
+        return json.dumps({
+            "timestamp": self.formatTime(record),
+            "level": record.levelname,       # ← DD reads this to set status
+            "logger": record.name,
+            "message": record.getMessage(),
+            "service": "backend"
+        })
+
+handler = logging.StreamHandler()
+handler.setFormatter(JSONFormatter())
+logging.basicConfig(level=logging.INFO, handlers=[handler])
+
 logger = logging.getLogger("user-crud-app")
 
 def get_db_connection():
@@ -93,7 +105,7 @@ def add_user():
         conn.commit()
         cur.close()
         conn.close()
-        logging.log.info("User added successfully")
+        logger.info("User added successfully")
         return jsonify({"message": "User added successfully"}), 201
     
     except Exception as e:
