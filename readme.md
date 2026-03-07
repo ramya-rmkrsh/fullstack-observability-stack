@@ -188,6 +188,7 @@ During incidents, knowing whether slowness is in the application layer or databa
 ### Full Stack Dashboard
 ![Dashboard](Screenshots/Dashboard.png)
 ![Dashboard](Screenshots/Dashboard2.png)
+![Dashboard](Screenshots/rum-widget.png)
 
 ### Service Map (backend → appdb)
 ![Service Map](Screenshots/service_map.png)
@@ -198,8 +199,14 @@ During incidents, knowing whether slowness is in the application layer or databa
 ### RUM — Frontend Monitoring
 ![RUM](Screenshots/rum.png)
 
+### Logs
+![Logs](Screenshots/logs.png)
+
 ### Monitors & SLO
 ![Monitors](Screenshots/monitors.png)
+
+### Runbooks
+![Runbooks](Screenshots/runbook.png)
 
 ---
 
