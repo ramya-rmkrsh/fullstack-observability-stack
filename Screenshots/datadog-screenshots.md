@@ -17,7 +17,9 @@ Logs
 <img width="1692" height="837" alt="logs.png" src="https://github.com/user-attachments/assets/7d0aba48-5569-4bc6-8416-3dd7967097ed" />
 
 Monitors
-<img width="1697" height="865" alt="monitors.png" src="https://github.com/user-attachments/assets/b61b8eaa-9463-4144-b72b-a7cce06a5904" />
+<img width="1117" height="461" alt="monitor.png" src="https://github.com/user-attachments/assets/d215ee4f-53c4-425f-8745-aead4acaced7" />
+
+<img width="1697" height="865" alt="error-rate-monitor.png" src="https://github.com/user-attachments/assets/b61b8eaa-9463-4144-b72b-a7cce06a5904" />
 
 Runbooks
 <img width="1708" height="847" alt="runbooks.png" src="https://github.com/user-attachments/assets/b043644f-f3bf-4804-b298-eed7879b8005" />
