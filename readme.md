@@ -305,20 +305,27 @@ During incidents, knowing whether slowness is in the application layer or databa
 ## 📸 Observability Screenshots
 
 ### Full Stack Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](Screenshots/Dashboard.png)
+![Dashboard](Screenshots/Dashboard2.png)
+![Dashboard](Screenshots/rum-widget.png)
+![Dashboard](Screenshots/backend-golden-signals.png)
 
 ### Service Map (backend → appdb)
-![Service Map](screenshots/service_map.png)
+![Service Map](Screenshots/service_map.png)
 
 ### APM Trace Flame Graph
-![APM Traces](screenshots/apm_traces.png)
+![APM Traces](Screenshots/apm_traces.png)
 
 ### RUM — Frontend Monitoring
-![RUM](screenshots/rum.png)
+![RUM](Screenshots/rum.png)
 
 ### Monitors
-![Monitors](screenshots/monitors.png)
+![Monitors](Screenshots/monitor-list.png)
+![Monitors](Screenshots/monitors.png)
 
+### Runbooks
+![Runbooks](Screenshots/runbook-list.png)
+![Runbooks](Screenshots/runbook.png)
 ---
 
 ## 📌 What I'd Add Next
